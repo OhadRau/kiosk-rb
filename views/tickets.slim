@@ -14,12 +14,12 @@ table .table #entries
       td Close
   - tickets.each do |ticket|
     tr
-      td #{ticket.id}
-      td #{ticket.name}
-      td #{ticket.asset_tag}
-      td #{ticket.body}
-      td #{ticket.time}
+      td = ticket.id
+      td = ticket.name
+      td = ticket.asset_tag
+      td = ticket.body
+      td = ticket.time
       - if ticket_type == :archived || (ticket_type == :both && ticket.closed)
-        td #{ticket.title}
+        td = ticket.title}
       - else
         td: a .btn href="/close/#{ticket.id}/" Close
