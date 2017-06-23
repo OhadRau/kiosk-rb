@@ -18,6 +18,7 @@ begin
   end
 
   assert_config(:connection)
+  assert_config(:initial_users)
   assert_config(:site_name)
   assert_config(:secret)
 rescue Exception => e
@@ -34,6 +35,8 @@ class Kiosk < Sinatra::Base
   configure do
     use Rack::Csrf, :raise => true
     use Rack::Session::Cookie, :secret => $CONFIG[:secret]
+
+    Code.create($CONFIG[:initial_users])
   end
 
   require_relative 'routes/main'

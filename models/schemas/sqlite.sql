@@ -6,8 +6,7 @@ CREATE TABLE users (
   firstname TEXT,
   lastname  TEXT,
   email     TEXT UNIQUE PRIMARY KEY NOT NULL,
-  password  TEXT NOT NULL,
-  session   TEXT
+  password  TEXT NOT NULL
 )
 
 CREATE TABLE tickets (
