@@ -1,0 +1,25 @@
+h1 "#{site_name} - #{ticket_type}"
+table .table #entries
+  tr
+    td Ticket ID
+    td Submitted by
+    td Asset Tag
+    td Issue
+    td Submitted on
+    td Assigned to
+    - if ticket_type == :archived || ticket_type == :both
+      td Title
+      td Resolution
+    - else
+      td Close
+  - tickets.each do |ticket|
+    tr
+      td #{ticket.id}
+      td #{ticket.name}
+      td #{ticket.asset_tag}
+      td #{ticket.body}
+      td #{ticket.time}
+      - if ticket_type == :archived || (ticket_type == :both && ticket.closed)
+        td #{ticket.title}
+      - else
+        td: a .btn href="/close/#{ticket.id}/" Close

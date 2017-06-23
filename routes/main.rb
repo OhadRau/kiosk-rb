@@ -8,6 +8,6 @@ class Kiosk
       site_name: $CONFIG.site_name
     }
 
-    slim :index, locals: locals
+    slim :home, locals: locals
   end
 end

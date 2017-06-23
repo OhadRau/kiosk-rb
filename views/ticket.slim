@@ -1,0 +1,27 @@
+h2 Ticket Information
+table .table
+  tr
+    td Ticket ID
+    td #{id}
+  tr
+    td Submitted by
+    td #{name}
+  tr
+    td Asset Tag
+    td #{asset_tag}
+  tr
+    td Issue
+    td #{body}
+  tr
+    td Submitted on
+    td #{time}
+  tr
+    td Assigned to
+    td #{assigned}
+align="left"
+  form .new-form action="/close/" method="POST"
+    h3 .form-heading Close this ticket
+    input type="hidden" name="id" value=#{id}
+    input .form-control name="title" placeholder="Title"
+    textarea .form-control name="solution" placeholder="Solution"
+    buton .btn .btn-lg .btn-primary .btn-block type="submit" Close
