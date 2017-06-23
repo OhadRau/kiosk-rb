@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title #{site_name}
+
+  body
+    nav .navbar .navbar-inverse .navbar-fixed-top
+      .container
+        .navbar-header
+          a .navbar-brand href="#" #{site_name}
+
+        .collapse .navbar-collapse
+          ul .nav .navbar-nav
+            - if logged_in
+              li: a href="/" Home
+              li: a href="/tickets" View Open Tickets
+              li: a href="/archive" View Closed Tickets
+              li: a href="/signout" Sign Out
+            - else
+              li: a href="/" Home
+              li: a href="/signup" Sign Up
+              li: a href="/signin" Sign In
+    .container
+      h1 #{site_name}
+      == yield
