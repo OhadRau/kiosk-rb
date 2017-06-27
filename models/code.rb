@@ -1,8 +1,14 @@
 class Code < ActiveRecord::Base
-  def self.create(num = 1)
-    num.times do
-      # FIXME: Generated number *may* not be unique
-      Code.create(SecureRandom.random_number(10_000))
+  def self.initN(num = 1)
+    unless count > 10_000
+      num.times do
+        code = SecureRandom.random_number(10_000)
+        while Code.exists?(code: code) do
+          code = SecureRandom.random_number(10_000)
+        end
+        puts "Generated user sign-up code: #{code}"
+        Code.create(:code => code)
+      end
     end
   end
 

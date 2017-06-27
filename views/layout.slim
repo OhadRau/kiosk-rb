@@ -4,18 +4,19 @@ html
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge"
     meta name="viewport" content="width=device-width, initial-scale=1"
-    link rel="stylesheet" href="/public/style/nav.css"
-    link rel="stylesheet" href="/public/style/content.css"
+    link rel="stylesheet" href="/style/bootstrap/css/bootstrap.min.css"
+    link rel="stylesheet" href="/style/nav.css"
+    link rel="stylesheet" href="/style/content.css"
     title = site_name
 
   body
-    nav .navbar .navbar-inverse .navbar-fixed-top
+    nav.navbar.navbar-inverse.navbar-fixed-top
       .container
         .navbar-header
-          a .navbar-brand href="#" = site_name
+          a.navbar-brand href="/" = site_name
 
-        .collapse .navbar-collapse
-          ul .nav .navbar-nav
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav
             - if logged_in
               li: a href="/" Home
               li: a href="/tickets" View Open Tickets
@@ -28,5 +29,5 @@ html
     .container
       h1 = site_name
       - if flash[:error]
-        .alert .alert-danger = flash[:error]
+        .alert.alert-danger = flash[:error]
       == yield

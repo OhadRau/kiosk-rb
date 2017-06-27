@@ -2,18 +2,18 @@ class Kiosk
   get '/signup' do
     locals = {
       logged_in: false,
-      site_name: $CONFIG.site_name
+      site_name: $CONFIG[:site_name]
     }
     slim :signup, locals: locals
   end
 
   post '/signup' do
-    if !params.has_key("firstname") || !params.has_key("lastname") || !params.has_key?("email") || !params.has_key?("password") || !params.has_key("code")
-      flash[:error] = "Missing required field!"
+    if !params.has_key?("firstname") || !params.has_key?("lastname") || !params.has_key?("email") || !params.has_key?("password") || !params.has_key?("code")
+       flash[:error] = "Missing required field!"
       return redirect '/signup'
     end
 
-    if User.exists?(email: email)
+    if User.exists?(email: params[:email])
       flash[:error] = "That email is already in use. Please try another email."
       return redirect '/signup'
     end
@@ -27,7 +27,7 @@ class Kiosk
       firstname: params[:firstname],
       lastname: params[:lastname],
       email: params[:email],
-      password: "TEMP"
+      passwordHash: "TEMP"
     })
     user.password = params[:password]
     user.save!
@@ -38,7 +38,7 @@ class Kiosk
   get '/signin' do
     locals = {
       logged_in: false,
-      site_name: $CONFIG.site_name
+      site_name: $CONFIG[:site_name]
     }
     slim :signin, locals: locals
   end

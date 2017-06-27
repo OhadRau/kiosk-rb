@@ -33,10 +33,10 @@ class Kiosk < Sinatra::Base
   set :public_folder, $ROOT + "/public"
 
   configure do
-    use Rack::Csrf, :raise => true
+#    use Rack::Csrf, :raise => true
     use Rack::Session::Cookie, :secret => $CONFIG[:secret]
 
-    Code.create($CONFIG[:initial_users])
+    Code.initN($CONFIG[:initial_users])
   end
 
   require_relative 'routes/main'

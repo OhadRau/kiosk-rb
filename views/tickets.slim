@@ -1,5 +1,5 @@
 h1 "#{site_name} - #{ticket_type}"
-table .table #entries
+table.table #entries
   tr
     td Ticket ID
     td Submitted by
@@ -20,6 +20,6 @@ table .table #entries
       td = ticket.body
       td = ticket.time
       - if ticket_type == :archived || (ticket_type == :both && ticket.closed)
-        td = ticket.title}
+        td = ticket.title
       - else
-        td: a .btn href="/close/#{ticket.id}/" Close
+        td: a.btn href="/close/#{ticket.id}/" Close
