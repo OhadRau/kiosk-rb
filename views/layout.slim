@@ -19,8 +19,9 @@ html
           ul.nav.navbar-nav
             - if logged_in
               li: a href="/" Home
-              li: a href="/tickets" View Open Tickets
-              li: a href="/archive" View Closed Tickets
+              li: a href="/tickets/both"     View All Tickets
+              li: a href="/tickets/open"     Open Tickets
+              li: a href="/tickets/archived" Archived Tickets
               li: a href="/signout" Sign Out
             - else
               li: a href="/" Home

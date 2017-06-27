@@ -1,4 +1,3 @@
-require 'bcrypt'
 class User < ActiveRecord::Base
   include BCrypt
 
@@ -8,9 +7,10 @@ class User < ActiveRecord::Base
 
   def password=(newPassword)
     @password = Password.create(newPassword)
+    self.passwordHash = @password
   end
 
-  def authorized?(email, password)
+  def self.authorized?(email, password)
     user = User.where(email: email).first
     user.password == password
   end

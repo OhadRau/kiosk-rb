@@ -5,6 +5,7 @@ require 'sinatra'
 require 'rack/csrf'
 require 'sinatra/flash'
 
+require 'bcrypt'
 require 'active_record'
 
 require_relative 'models/master'

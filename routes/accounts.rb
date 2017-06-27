@@ -54,11 +54,11 @@ class Kiosk
       return redirect '/signin'
     end
 
-    session[:user_email] = email
+    session[:user_email] = params[:email]
     redirect '/'
   end
 
-  post '/signout' do
+  get '/signout' do
     session.clear
     redirect '/'
   end

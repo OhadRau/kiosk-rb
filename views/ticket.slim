@@ -25,11 +25,11 @@ table.table
     tr
       td Resolution
       td = resolution
-- unless closed
-  align="left"
-    form.new-form action="/close/" method="POST"
+- if !closed
+  div align="left"
+    form.new-form action="/close/#{id}" method="POST"
       h3.form-heading Close this ticket
-      input type="hidden" name="id" value="#{id}"
-      input.form-control name="title" placeholder="Title"
-      textarea.form-control name="solution" placeholder="Solution"
+      input type="hidden"          name="id" value="#{id}"
+      input.form-control.top       name="title" placeholder="Title"
+      textarea.form-control.bottom name="resolution" placeholder="Solution"
       button.btn.btn-lg.btn-primary.btn-block type="submit" Close

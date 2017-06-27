@@ -1,5 +1,5 @@
-h1 "#{site_name} - #{ticket_type}"
-table.table #entries
+h2 Tickets (#{ticket_type})
+table.table#entries
   tr
     td Ticket ID
     td Submitted by
@@ -10,7 +10,7 @@ table.table #entries
     - if ticket_type == :archived || ticket_type == :both
       td Title
       td Resolution
-    - else
+    - if ticket_type == :both || ticket_type == :open
       td Close
   - tickets.each do |ticket|
     tr
@@ -19,7 +19,14 @@ table.table #entries
       td = ticket.asset_tag
       td = ticket.body
       td = ticket.time
+      td = ticket.assigned
       - if ticket_type == :archived || (ticket_type == :both && ticket.closed)
         td = ticket.title
-      - else
-        td: a.btn href="/close/#{ticket.id}/" Close
+        td = ticket.resolution
+      - elsif ticket_type == :both && !ticket.closed
+        td N/A
+        td N/A
+      - if ticket_type == :open || (ticket_type == :both && !ticket.closed)
+        td: a.btn href="/ticket/#{ticket.id}" Close
+      - elsif ticket_type == :both && ticket.closed
+        td N/A
