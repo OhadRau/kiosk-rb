@@ -66,7 +66,7 @@ class Kiosk
     ticket = Ticket.create({
       name: params[:name],
       body: params[:body],
-      asset_tag: if params.has_key?("asset_tag") then params[:asset] else "N/A" end,
+      asset_tag: if params.has_key?("asset") then params[:asset] else "N/A" end,
       time: Time.now,
       closed: false,
       title: "",

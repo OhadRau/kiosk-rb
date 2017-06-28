@@ -37,7 +37,7 @@ class Kiosk < Sinatra::Base
 #    use Rack::Csrf, :raise => true
     use Rack::Session::Cookie, :secret => $CONFIG[:secret]
 
-    Code.initN($CONFIG[:initial_users])
+    Code.initN($CONFIG[:initial_users]) if Code.count == 0
   end
 
   require_relative 'routes/main'
