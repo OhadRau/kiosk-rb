@@ -83,8 +83,8 @@ class Kiosk
 
     id = params[:id]
 
-    if !params.has_key?("title") || !params.has_key?("resolution")
-      flash[:error] = "Closing a ticket requires a title and resolution! Please try again."
+    if !params.has_key?("resolution")
+      flash[:error] = "Closing a ticket requires a resolution! Please try again."
       return redirect '/'
     end
 
@@ -93,7 +93,27 @@ class Kiosk
       return redirect '/'
     end
 
-    Ticket.where(id: id).update_all(:closed => true, :title => params[:title], :resolution => params[:resolution])
+    Ticket.where(id: id).first.close(params[:resolution])
+
+    redirect '/'
+  end
+
+  post '/fwd/:id' do
+    return redirect back unless User.exists?(email: session[:user_email])
+
+    id = params[:id]
+
+    if !params.has_key?("title")
+      flash[:error] = "Forwarding a ticket requires a title! Please try again."
+      return redirect '/'
+    end
+
+    if !Ticket.exists?(id: id)
+      flash[:error] = "That ticket's ID was invalid. Please try again."
+      return redirect '/'
+    end
+
+    Ticket.where(id: id).first.postToServiceDesk(params[:title])
 
     redirect '/'
   end

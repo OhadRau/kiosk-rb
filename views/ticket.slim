@@ -30,6 +30,11 @@ table.table
     form.new-form action="/close/#{id}" method="POST"
       h3.form-heading Close this ticket
       input type="hidden"          name="id" value="#{id}"
-      input.form-control.top       name="title" placeholder="Title"
       textarea.form-control.bottom name="resolution" placeholder="Solution"
       button.btn.btn-lg.btn-primary.btn-block type="submit" Close
+  div align="left"
+    form.new-form action="/fwd/#{id}" method="POST"
+      h3.form-heading Close this ticket
+      input type="hidden"          name="id" value="#{id}"
+      input.form-control.top       name="title" placeholder="Title"
+      button.btn.btn-lg.btn-primary.btn-block type="submit" Forward to ServiceDesk

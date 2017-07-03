@@ -1,4 +1,5 @@
 require 'yaml'
+require 'json'
 
 require 'thin'
 require 'sinatra'
@@ -7,6 +8,9 @@ require 'sinatra/flash'
 
 require 'bcrypt'
 require 'active_record'
+
+require 'uri'
+require 'net/http'
 
 require_relative 'models/master'
 
