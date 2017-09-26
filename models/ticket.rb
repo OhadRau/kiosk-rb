@@ -7,11 +7,10 @@ class Ticket < ActiveRecord::Base
 
   def postToServiceDesk(title)
     self.closed = true
+    self.title = title
+    self.save!
 
     url = URI.parse($CONFIG[:sdp] + '/sdpapi/request')
-    self.title = title
-
-    self.save!
 
     input_data = {
       :operation => {
@@ -32,10 +31,16 @@ class Ticket < ActiveRecord::Base
     }.to_json
 
     Thread.new do
-      Net::HTTP.post_form(url, {
+      req = Net::HTTP::Post.new(url.path)
+      req.form_data = {
         :OPERATION_NAME => "ADD_REQUEST",
         :INPUT_DATA => input_data
-      })
+      }
+
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE # TODO: Verify SSL certificates
+      http.start { |http| http.request(req) }
     end
   end
 end
