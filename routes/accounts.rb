@@ -9,7 +9,7 @@ class Kiosk
 
   post '/signup' do
     if !params.has_key?("firstname") || !params.has_key?("lastname") || !params.has_key?("email") || !params.has_key?("password") || !params.has_key?("code")
-       flash[:error] = "Missing required field!"
+      flash[:error] = "Missing required field!"
       return redirect '/signup'
     end
 

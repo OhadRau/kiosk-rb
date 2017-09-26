@@ -2,6 +2,7 @@ class Ticket < ActiveRecord::Base
   def close(resolution)
     self.closed = true
     self.resolution = resolution
+    self.save!
   end
 
   def postToServiceDesk(title)
@@ -9,6 +10,8 @@ class Ticket < ActiveRecord::Base
 
     url = URI.parse($CONFIG[:sdp] + '/sdpapi/request')
     self.title = title
+
+    self.save!
 
     input_data = {
       :operation => {
