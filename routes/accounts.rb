@@ -7,12 +7,36 @@ class Kiosk
     slim :signup, locals: locals
   end
 
-  post '/signup' do
+  #sign up code
+  post '/signup' do # checks for required field
     if !params.has_key?("firstname") || !params.has_key?("lastname") || !params.has_key?("email") || !params.has_key?("password") || !params.has_key?("code")
       flash[:error] = "Missing required field!"
       return redirect '/signup'
     end
 
+    #checks for required field lengths
+    if !params[:firstname].length > 0
+      flash[:error] = "Missing required field (First Name)"
+      return redirect '/signup'      
+    end
+    if !params[:lastname].length > 0 
+      flash[:error] = "Missing required field (Last Name)"
+      return redirect '/signup'
+    end
+    if !params[:email].lenghth > 0
+      flash[:error] = "Missing required field (Email)" 
+      return redirect '/signup'
+    end
+    if !params[:password].length > 0
+      flash[:error] = "Missing required field (Password)" 
+      return redirect '/signup' 
+    end
+    if !params[:code].lenghth > 0
+      flash[:error] = "Missing required field (Code0"
+    end
+
+    
+    #checks if email or signup code is invalid
     if User.exists?(email: params[:email])
       flash[:error] = "That email is already in use. Please try another email."
       return redirect '/signup'
@@ -23,6 +47,7 @@ class Kiosk
       return redirect '/signup'
     end
 
+    #creates new user
     user = User.create({
       firstname: params[:firstname],
       lastname: params[:lastname],
