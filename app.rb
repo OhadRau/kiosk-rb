@@ -24,6 +24,7 @@ begin
 
   assert_config(:connection)
   assert_config(:initial_users)
+  assert_config(:site_title)
   assert_config(:site_name)
   assert_config(:secret)
 rescue Exception => e

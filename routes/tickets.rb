@@ -22,7 +22,7 @@ class Kiosk
       title: ticket.title,
       resolution: ticket.resolution,
       logged_in: User.exists?(email: session[:user_email]),
-      site_name: $CONFIG[:site_name]
+      site_title: $CONFIG[:site_title]
     }
 
     slim :ticket, locals: locals
@@ -51,7 +51,7 @@ class Kiosk
       ticket_type: type,
       tickets: tickets,
       logged_in: User.exists?(email: session[:user_email]),
-      site_name: $CONFIG[:site_name]
+      site_title: $CONFIG[:site_title]
     }
 
     slim :tickets, locals: locals

@@ -20,7 +20,7 @@ class Ticket < ActiveRecord::Base
           :description => self.body,
           :requesttemplate => "Unable to browse",
           :priority => "Normal",
-          :site => "Unable to browse",
+          :site => $CONFIG[:site_title],
           :group => "Unable to browse",
           :technician => self.assigned,
           :level => "Tier 3",
@@ -30,17 +30,19 @@ class Ticket < ActiveRecord::Base
       }
     }.to_json
 
-    Thread.new do
+    #Thread.new do
       req = Net::HTTP::Post.new(url.path)
       req.form_data = {
         :OPERATION_NAME => "ADD_REQUEST",
+        :TECHNICIAN_KEY => $CONFIG[:sdpToken],
         :INPUT_DATA => input_data
       }
 
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE # TODO: Verify SSL certificates
+      http.set_debug_output($stdout) 
       http.start { |http| http.request(req) }
-    end
+    #end
   end
 end

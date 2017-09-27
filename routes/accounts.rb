@@ -2,7 +2,7 @@ class Kiosk
   get '/signup' do
     locals = {
       logged_in: false,
-      site_name: $CONFIG[:site_name]
+      site_title: $CONFIG[:site_title]
     }
     slim :signup, locals: locals
   end
@@ -38,7 +38,7 @@ class Kiosk
   get '/signin' do
     locals = {
       logged_in: false,
-      site_name: $CONFIG[:site_name]
+      site_title: $CONFIG[:site_title]
     }
     slim :signin, locals: locals
   end
