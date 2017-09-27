@@ -62,8 +62,8 @@ class Kiosk
       flash[:error] = "Ticket is missing required fields. Please try again."
       return redirect '/'
     end
-    
-    if params["body"].length < 40
+
+    if params[:"body"].length < 40
       flash[:error] = "Description must be at least 40 characters long" 
       return redirect '/' 
     end
