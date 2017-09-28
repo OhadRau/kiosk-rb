@@ -8,40 +8,42 @@ class Kiosk
   end
 
   #sign up code
-  post '/signup' do # checks for required field
+  post '/signup' do
+    #checks for required field
     if !params.has_key?("firstname") || !params.has_key?("lastname") || !params.has_key?("email") || !params.has_key?("password") || !params.has_key?("code")
       flash[:error] = "Missing required field!"
       return redirect '/signup'
     end
 
     #checks for required field lengths
-    if !params[:firstname].length > 0
+    if params[:firstname].length == 0
       flash[:error] = "Missing required field (First Name)"
       return redirect '/signup'      
     end
-    if !params[:lastname].length > 0 
+    if params[:lastname].length == 0 
       flash[:error] = "Missing required field (Last Name)"
       return redirect '/signup'
     end
-    if !params[:email].lenghth > 0
+    if params[:email].length == 0
       flash[:error] = "Missing required field (Email)" 
       return redirect '/signup'
     end
-    if !params[:password].length > 0
+    if params[:password].length == 0
       flash[:error] = "Missing required field (Password)" 
       return redirect '/signup' 
     end
-    if !params[:code].lenghth > 0
-      flash[:error] = "Missing required field (Code0"
+    if params[:code].length == 0
+      flash[:error] = "Missing required field (Code)"
+      return redirect '/signup'
     end
-
     
-    #checks if email or signup code is invalid
+    #checks if email has already been used
     if User.exists?(email: params[:email])
       flash[:error] = "That email is already in use. Please try another email."
       return redirect '/signup'
     end
 
+    #checks if sign-up code is valid
     if !Code.validate(params[:code])
       flash[:error] = "Your sign-up code is invalid. Please try another code."
       return redirect '/signup'
