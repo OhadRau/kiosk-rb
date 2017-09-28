@@ -122,14 +122,18 @@ class Kiosk
         title: ticket.title,
         site_title: $CONFIG[:site_title]
       }
-      Prawn::Document.generate("stickers/#{id}.pdf", :page_size => [in2pt(2.3125), in2pt(4)] ) do
-        text("<b>ID:</b> #{locals[:id]}", :inline_format => true, :size => 8)
+      Prawn::Document.generate("public/stickers/#{id}.pdf", :page_size => [in2pt(2.3125), in2pt(4)] ) do
         text("<b>Name:</b> #{locals[:name]}", :inline_format => true, :size => 8)
         text("<b>Description:</b> #{locals[:body]}", :inline_format => true, :size => 8)
         text("<b>Time:</b> #{locals[:time]}", :inline_format => true, :size => 8)
+        text("<b>ID:</b> #{locals[:id]}", :inline_format => true, :size => 8)
         text("<b>Assigned:</b> #{locals[:assigned]}", :inline_format => true, :size => 8)
         text("<b>Site:</b> #{locals[:site]}", :inline_format => true, :size => 8)
+
+        print
       end
+
+      send_file File.join(settings.public_folder, "stickers/#{id}.pdf")
 
   end
 

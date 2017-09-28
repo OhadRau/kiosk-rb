@@ -1,6 +1,8 @@
 require 'yaml'
 require 'json'
+
 require 'prawn'
+require 'prawn-print'
 
 require 'thin'
 require 'sinatra'
