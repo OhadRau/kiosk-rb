@@ -28,7 +28,7 @@ class Kiosk
     slim :ticket, locals: locals
   end
 
-  
+
   get '/tickets' do
     return redirect back unless User.exists?(email: session[:user_email])
 
@@ -64,8 +64,8 @@ class Kiosk
     end
 
     if params[:body].length < $CONFIG[:min_description_length]
-      flash[:error] = "Description must be at least #{$CONFIG[:min_description_length]} characters long" 
-      return redirect '/' 
+      flash[:error] = "Description must be at least #{$CONFIG[:min_description_length]} characters long"
+      return redirect '/'
     end
 
     ticket = Ticket.create({
@@ -101,6 +101,29 @@ class Kiosk
     Ticket.where(id: id).first.close(params[:resolution])
 
     redirect '/'
+  end
+
+  post '/print/:id' do
+      return redirect back unless User.exists?(email: session[:user_email])
+
+      id = params[:id]
+      ticket = Ticket.where(id: id).first
+
+      locals = {
+        id: id,
+        name: ticket.name,
+        asset_tag: ticket.asset_tag,
+        body: ticket.body,
+        time: ticket.time,
+        assigned: ticket.assigned,
+        title: ticket.title,
+        site_title: $CONFIG[:site_title]
+      }
+
+      Prawn::Document.generate('hello.pdf') do
+        text "Hello World!"
+      end
+
   end
 
   post '/fwd/:id' do
