@@ -26,6 +26,7 @@ begin
   assert_config(:initial_users)
   assert_config(:site_title)
   assert_config(:site_name)
+  assert_config(:min_description_length)
   assert_config(:secret)
 rescue Exception => e
   puts e

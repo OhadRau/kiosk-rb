@@ -63,8 +63,8 @@ class Kiosk
       return redirect '/'
     end
 
-    if params[:body].length < 40
-      flash[:error] = "Description must be at least 40 characters long" 
+    if params[:body].length < $CONFIG[:min_description_length]
+      flash[:error] = "Description must be at least #{$CONFIG[:min_description_length]} characters long" 
       return redirect '/' 
     end
 

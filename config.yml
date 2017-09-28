@@ -6,6 +6,8 @@
 # Name the site refers to itself with (on ServiceDesk and as the page titles)
 :site_name: Kiosk
 :site_title: Kiosk
+# Minimum length for ticket descriptions (in characters)
+:min_description_length: 15
 # Number of users to generate signup keys for
 :initial_users: 10
 
