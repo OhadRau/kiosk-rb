@@ -31,4 +31,6 @@ html
       h1 = site_title
       - if flash[:error]
         .alert.alert-danger = flash[:error]
+      - if flash[:success]
+        .alert.alert-success = flash[:success]
       == yield
