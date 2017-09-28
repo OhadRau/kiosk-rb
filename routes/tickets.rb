@@ -80,6 +80,7 @@ class Kiosk
     })
     ticket.save!
 
+    flash[:success] = "Your ticket has been submitted!" unless User.exists?(email: session[:user_email]) 
     redirect '/tickets/open'
   end
 
