@@ -1,3 +1,5 @@
+include Prawn::Measurements
+
 class Kiosk
   get '/ticket/:id' do
     return redirect back unless User.exists?(email: session[:user_email])
@@ -80,7 +82,7 @@ class Kiosk
     })
     ticket.save!
 
-    flash[:success] = "Your ticket has been submitted!" unless User.exists?(email: session[:user_email]) 
+    flash[:success] = "Your ticket has been submitted!" unless User.exists?(email: session[:user_email])
     redirect '/tickets/open'
   end
 
@@ -120,9 +122,13 @@ class Kiosk
         title: ticket.title,
         site_title: $CONFIG[:site_title]
       }
-
-      Prawn::Document.generate('hello.pdf') do
-        text "Hello World!"
+      Prawn::Document.generate("stickers/#{id}.pdf", :page_size => [in2pt(2.3125), in2pt(4)] ) do
+        text("<b>ID:</b> #{locals[:id]}", :inline_format => true, :size => 8)
+        text("<b>Name:</b> #{locals[:name]}", :inline_format => true, :size => 8)
+        text("<b>Description:</b> #{locals[:body]}", :inline_format => true, :size => 8)
+        text("<b>Time:</b> #{locals[:time]}", :inline_format => true, :size => 8)
+        text("<b>Assigned:</b> #{locals[:assigned]}", :inline_format => true, :size => 8)
+        text("<b>Site:</b> #{locals[:site]}", :inline_format => true, :size => 8)
       end
 
   end
