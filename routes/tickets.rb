@@ -82,7 +82,7 @@ class Kiosk
     })
     ticket.save!
 
-    flash[:success] = "Your ticket has been submitted!" unless User.exists?(email: session[:user_email])
+    flash[:success] = "Your ticket has been submitted! Please print your label by <a href='google.com'> clicking here </a>" unless User.exists?(email: session[:user_email])
     redirect '/tickets/open'
   end
 
@@ -129,11 +129,15 @@ class Kiosk
         text("<b>ID:</b> #{locals[:id]}", :inline_format => true, :size => 8)
         text("<b>Assigned:</b> #{locals[:assigned]}", :inline_format => true, :size => 8)
         text("<b>Site:</b> #{locals[:site]}", :inline_format => true, :size => 8)
-
-        print
       end
 
-      send_file File.join(settings.public_folder, "stickers/#{id}.pdf")
+      system "lpr -P '#{$CONFIG[:printer_name]}' public/stickers/#{id}.pdf"
+
+      if $?.exitstatus > 0
+        puts "ERROR: Printing failed!"
+      end
+
+      redirect "/ticket/#{id}"
 
   end
 
