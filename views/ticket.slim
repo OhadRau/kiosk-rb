@@ -38,3 +38,7 @@ table.table
       input type="hidden"          name="id" value="#{id}"
       input.form-control.top       name="title" required=true placeholder="Title"
       button.btn.btn-lg.btn-primary.btn-block type="submit" Forward to ServiceDesk
+  div align="left"
+    form.new-form action="/print/#{id}" method="POST"
+      h3.form-heading Print
+      button.btn.btn-lg.btn-primary.btn-block type="submit" Print sticker

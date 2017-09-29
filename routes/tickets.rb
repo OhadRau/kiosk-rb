@@ -1,3 +1,5 @@
+include Prawn::Measurements
+
 class Kiosk
   get '/ticket/:id' do
     return redirect back unless User.exists?(email: session[:user_email])
@@ -28,7 +30,7 @@ class Kiosk
     slim :ticket, locals: locals
   end
 
-  
+
   get '/tickets' do
     return redirect back unless User.exists?(email: session[:user_email])
 
@@ -64,8 +66,8 @@ class Kiosk
     end
 
     if params[:body].length < $CONFIG[:min_description_length]
-      flash[:error] = "Description must be at least #{$CONFIG[:min_description_length]} characters long" 
-      return redirect '/' 
+      flash[:error] = "Description must be at least #{$CONFIG[:min_description_length]} characters long"
+      return redirect '/'
     end
 
     ticket = Ticket.create({
@@ -78,9 +80,19 @@ class Kiosk
       resolution: "",
       assigned: User.offset(rand(User.count)).first.email
     })
+    id = ticket[:id]
     ticket.save!
+    printer = Ticket.where(id: id).first.printer()
 
-    flash[:success] = "Your ticket has been submitted!" unless User.exists?(email: session[:user_email]) 
+    flash[:success] = "Your ticket has been submitted!"
+
+    case printer
+    when true
+      flash[:success] = "Sent to printer!" unless User.exists?(email: session[:user_email])
+    when false
+      flash[:error] = "There has been a printer error" unless User.exists?(email: session[:user_email])
+    end
+
     redirect '/tickets/open'
   end
 
@@ -102,6 +114,24 @@ class Kiosk
     Ticket.where(id: id).first.close(params[:resolution])
 
     redirect '/'
+  end
+
+  post '/print/:id' do
+      return redirect back unless User.exists?(email: session[:user_email])
+
+      id = params[:id]
+
+      printer = Ticket.where(id: id).first.printer()
+
+      case printer
+      when true
+        flash[:success] = "Sent to printer!"
+      when false
+        flash[:error] = "There has been a printer error"
+      end
+
+      redirect "/ticket/#{id}"
+
   end
 
   post '/fwd/:id' do

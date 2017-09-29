@@ -28,7 +28,7 @@ html
               li: a href="/signup" Sign Up
               li: a href="/signin" Sign In
     .container
-      h1 = site_title
+      h1 = "Welcome to " + site_title
       - if flash[:error]
         .alert.alert-danger = flash[:error]
       - if flash[:success]

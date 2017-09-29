@@ -11,6 +11,8 @@
 # Number of users to generate signup keys for
 :initial_users: 10
 
+:printer_name: CHANGE ME
+
 # ServiceDesk Plus base URL
 :sdp: https://servicedesk.example.com
 # API key for ServiceDesk Plus
