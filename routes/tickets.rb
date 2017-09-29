@@ -139,6 +139,8 @@ class Kiosk
         flash[:success] = "Sent to printer"
       end
 
+      File.delete("public/stickers/#{id}.pdf")
+
       redirect "/ticket/#{id}"
 
   end
