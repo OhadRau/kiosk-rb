@@ -9,4 +9,6 @@ gem 'bcrypt'
 gem 'sqlite3'
 gem 'activerecord'
 
+gem 'prawn'
+
 gem 'slim'
