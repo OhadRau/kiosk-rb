@@ -80,9 +80,19 @@ class Kiosk
       resolution: "",
       assigned: User.offset(rand(User.count)).first.email
     })
+    id = ticket[:id]
     ticket.save!
+    printer = Ticket.where(id: id).first.printer()
 
-    flash[:success] = "Your ticket has been submitted! Please print your label by <a href='google.com'> clicking here </a>" unless User.exists?(email: session[:user_email])
+    flash[:success] = "Your ticket has been submitted!"
+
+    case printer
+    when true
+      flash[:success] = "Sent to printer!" unless User.exists?(email: session[:user_email])
+    when false
+      flash[:error] = "There has been a printer error" unless User.exists?(email: session[:user_email])
+    end
+
     redirect '/tickets/open'
   end
 
@@ -110,36 +120,15 @@ class Kiosk
       return redirect back unless User.exists?(email: session[:user_email])
 
       id = params[:id]
-      ticket = Ticket.where(id: id).first
 
-      locals = {
-        id: id,
-        name: ticket.name,
-        asset_tag: ticket.asset_tag,
-        body: ticket.body,
-        time: ticket.time,
-        assigned: ticket.assigned,
-        title: ticket.title,
-        site_title: $CONFIG[:site_title]
-      }
-      Prawn::Document.generate("public/stickers/#{id}.pdf", :page_size => [in2pt(2.3125), in2pt(4)] ) do
-        text("<b>Name:</b> #{locals[:name]}", :inline_format => true, :size => 8)
-        text("<b>Description:</b> #{locals[:body]}", :inline_format => true, :size => 8)
-        text("<b>Time:</b> #{locals[:time]}", :inline_format => true, :size => 8)
-        text("<b>ID:</b> #{locals[:id]}", :inline_format => true, :size => 8)
-        text("<b>Assigned:</b> #{locals[:assigned]}", :inline_format => true, :size => 8)
-        text("<b>Site:</b> #{locals[:site]}", :inline_format => true, :size => 8)
+      printer = Ticket.where(id: id).first.printer()
+
+      case printer
+      when true
+        flash[:success] = "Sent to printer!"
+      when false
+        flash[:error] = "There has been a printer error"
       end
-
-      system "lpr -P '#{$CONFIG[:printer_name]}' public/stickers/#{id}.pdf"
-
-      if $?.exitstatus > 0
-        flash[:error] = "Printing failed!"
-      else
-        flash[:success] = "Sent to printer"
-      end
-
-      File.delete("public/stickers/#{id}.pdf")
 
       redirect "/ticket/#{id}"
 
