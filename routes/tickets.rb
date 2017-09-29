@@ -134,7 +134,9 @@ class Kiosk
       system "lpr -P '#{$CONFIG[:printer_name]}' public/stickers/#{id}.pdf"
 
       if $?.exitstatus > 0
-        puts "ERROR: Printing failed!"
+        flash[:error] = "Printing failed!"
+      else
+        flash[:success] = "Sent to printer"
       end
 
       redirect "/ticket/#{id}"
