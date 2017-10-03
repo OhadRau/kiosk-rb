@@ -1,17 +1,17 @@
 h2 Tickets (#{ticket_type})
 table.table#entries
   tr
-    td Ticket ID
-    td Submitted by
-    td Asset Tag
-    td Issue
-    td Submitted on
-    td Assigned to
+    td: b Ticket ID
+    td: b Submitted by
+    td: b Asset Tag
+    td: b Issue
+    td: b Submitted on
+    td: b Assigned to
     - if ticket_type == :archived || ticket_type == :both
-      td Title
-      td Resolution
+      td: b Title
+      td: b Resolution
     - if ticket_type == :both || ticket_type == :open
-      td Close
+      td: b Status
   - tickets.each do |ticket|
     tr
       td = ticket.id
@@ -27,6 +27,6 @@ table.table#entries
         td N/A
         td N/A
       - if ticket_type == :open || (ticket_type == :both && !ticket.closed)
-        td: a.btn href="/ticket/#{ticket.id}" Close
+        td: a.btn href="/ticket/#{ticket.id}" ✘ Open
       - elsif ticket_type == :both && ticket.closed
-        td N/A
+        td:  a.btn href="/ticket/#{ticket.id}" ✓ Closed

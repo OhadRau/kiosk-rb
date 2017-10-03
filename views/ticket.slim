@@ -37,6 +37,17 @@ table.table
       h3.form-heading Close this ticket
       input type="hidden"          name="id" value="#{id}"
       input.form-control.top       name="title" required=true placeholder="Title"
+      select.form-control name="category" required=true
+        option disabled=true selected=true value="Category" Category
+        - categories.each do |item|
+          option value=item = item
+      end
+      select.form-control name="item" required=true
+        option disabled=true selected=true value="Item" Item
+        - items.each do |item|
+          option value=item = item
+      end
+
       button.btn.btn-lg.btn-primary.btn-block type="submit" Forward to ServiceDesk
   div align="left"
     form.new-form action="/print/#{id}" method="POST"

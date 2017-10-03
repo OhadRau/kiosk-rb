@@ -1,6 +1,6 @@
 form.submit-form action="/create/" method="POST"
   h3.form-heading Submit a ticket
-  input.form-control.top       type="text" name="name"  required=true placeholder="Enter Your Name"
-  input.form-control.middle    type="text" name="asset" required=true placeholder="Enter the Asset Tag"
-  textarea.form-control.bottom             name="body"  required=true placeholder="Describe your issue" minlength="#{min_description_length}"
+  input.form-control.top       type="text" name="name"  required=true autocomplete="off" placeholder="Enter Your Name"
+  input.form-control.middle    type="text" name="asset" required=true autocomplete="off" placeholder="Enter the Asset Tag"
+  textarea.form-control.bottom             name="body"  required=true autocomplete="off" placeholder="Describe your issue" minlength="#{min_description_length}"
   button.btn.btn-lg.btn-primary.btn-block type="submit" Submit!

@@ -24,7 +24,9 @@ class Kiosk
       title: ticket.title,
       resolution: ticket.resolution,
       logged_in: User.exists?(email: session[:user_email]),
-      site_title: $CONFIG[:site_title]
+      site_title: $CONFIG[:site_title],
+      categories: $CONFIG[:sdpcategories],
+      items: $CONFIG[:sdpitems]
     }
 
     slim :ticket, locals: locals
@@ -70,11 +72,12 @@ class Kiosk
       return redirect '/'
     end
 
+
     ticket = Ticket.create({
       name: params[:name],
       body: params[:body],
       asset_tag: if params.has_key?("asset") then params[:asset] else "N/A" end,
-      time: Time.now,
+      time: Time.now.localtime("-04:00"),
       closed: false,
       title: "",
       resolution: "",
@@ -88,9 +91,9 @@ class Kiosk
 
     case printer
     when true
-      flash[:success] = "Sent to printer!" unless User.exists?(email: session[:user_email])
+      flash[:success] = "Please pick your ticket up from the label printer and affix it to your device." unless User.exists?(email: session[:user_email])
     when false
-      flash[:error] = "There has been a printer error" unless User.exists?(email: session[:user_email])
+      flash[:error] = "There has been a printer error. Please alert your kiosk manager." unless User.exists?(email: session[:user_email])
     end
 
     redirect '/tickets/open'
@@ -149,7 +152,7 @@ class Kiosk
       return redirect '/'
     end
 
-    Ticket.where(id: id).first.postToServiceDesk(params[:title])
+    Ticket.where(id: id).first.postToServiceDesk(params[:title], params[:category], params[:item])
 
     redirect '/'
   end
